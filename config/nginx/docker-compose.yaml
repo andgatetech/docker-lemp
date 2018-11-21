@@ -1,0 +1,23 @@
+nginx:
+  container_name: ALAM_CORE_NGINX
+  image: nginx:latest
+  ports:
+    - "8080:8080"
+  volumes:
+    - "./public_html:/public_html"
+    # nginx configs
+    - "./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+    - "./config/nginx/conf.d/:/etc/nginx/conf.d/:ro"
+  links:
+    - php:__DOCKER_PHP_FPM__
+php:
+  container_name: ALAM_CORE_PHP_FPM
+  build: ./config/php-fpm
+  ports:
+    - "9000"
+  volumes:
+    - ./public_html:/public_html
+    - ./config/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+  
+
+

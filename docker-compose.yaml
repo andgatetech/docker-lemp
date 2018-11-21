@@ -1,0 +1,46 @@
+nginx:
+  container_name: ALAM_NGNIX
+  image: nginx:latest
+  ports:
+    - "80:8080"
+  volumes:
+    - "./public_html:/public_html"
+    - "./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+    - "./config/nginx/conf.d/:/etc/nginx/conf.d/:ro"
+  links:
+    - php:__DOCKER_PHP_FPM__
+php:
+  container_name: ALAM_PHP_FPM
+  build: ./config/php-fpm
+  ports:
+    - "9000"
+  env_file:
+    - "./config.env"
+  volumes:
+    - ./public_html:/public_html
+    - ./config/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
+phpmyadmin:
+  container_name: ALAM_PHPMYADMIN
+  links:
+    - mysqldb:db
+  image: phpmyadmin/phpmyadmin
+  ports:
+    - "8080:80"
+mysqldb:
+  container_name: ALAM_MYSQL
+  image: mysql:5.7
+  volumes:
+    - "./db"
+  restart: always
+  environment:
+      ###############################
+      #Change Parameters accordingly
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: myroot
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+      ###############################
+  ports:
+   - "3306:3306"
+
