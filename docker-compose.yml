@@ -23,7 +23,7 @@ services:
             - ./var/www:/var/www
             - ./config/php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
         networks:
-            - lempnet 
+            - lempnet
     mysqldb:
         container_name: ALAM_MYSQL
         image: mysql:5.7
@@ -32,10 +32,10 @@ services:
         restart: always
         environment:
             - MYSQL_ROOT_HOST=%
-            - MYSQL_ROOT_PASSWORD=myroot
+            - MYSQL_ROOT_PASSWORD=root123!
             - MYSQL_USER=myuser
             - MYSQL_PASSWORD=mypassword
-            - MYSQL_DATABASE=laravel
+            - MYSQL_DATABASE=soundbeans
         ports:
             - "3306:3306"
         networks:
@@ -51,8 +51,7 @@ services:
         depends_on:
             - mysqldb
         networks:
-            - lempnet  
+            - lempnet
 networks:
     lempnet:
         driver: bridge
-    
